@@ -1,15 +1,24 @@
-name: My First Workflow
-
-# 実行するタイミング：GitHubにpush（保存）したとき
-on: [push]
-
+name: Deploy to Firebase Hosting on merge
+on:
+  push:
+    branches:
+      - main
 jobs:
-  # ジョブの名前
-  say-hello:
-    # 実行する環境（最新のUbuntu Linux）
+  build_and_deploy:
     runs-on: ubuntu-latest
-    
     steps:
-      # 実際に実行するコマンド
-      - name: Run Hello World
-        run: echo "Hello, World! GitHub Actions is working!"
+      - uses: actions/checkout@v4
+      
+      # 1. 依存ライブラリのインストール
+      - run: npm ci
+      
+      # 2. ビルド（distフォルダの作成）
+      - run: npm run build
+      
+      # 3. Firebaseへのデプロイ
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_STUDY_RECORD_V2 }}'
+          channelId: live
+          projectId: study-record-v2
