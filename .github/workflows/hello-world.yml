@@ -9,14 +9,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      # 1. 依存ライブラリのインストール
-      - run: npm ci
+      # 1. 依存ライブラリのインストール（1回でOK）
+      - name: Install dependencies
+        run: npm ci
       
-      # 2. ビルド（distフォルダの作成）
-      - run: npm run build
+      # 2. テストの実行（ビルド・デプロイの前にやる！）
+      - name: Run tests
+        run: npm test
       
-      # 3. Firebaseへのデプロイ
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      # 3. ビルド
+      - name: Build
+        run: npm run build
+      
+      # 4. Firebaseへのデプロイ
+      - name: Deploy to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_STUDY_RECORD_V2 }}'
