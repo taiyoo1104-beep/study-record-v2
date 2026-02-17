@@ -1,0 +1,15 @@
+name: My First Workflow
+
+# 実行するタイミング：GitHubにpush（保存）したとき
+on: [push]
+
+jobs:
+  # ジョブの名前
+  say-hello:
+    # 実行する環境（最新のUbuntu Linux）
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 実際に実行するコマンド
+      - name: Run Hello World
+        run: echo "Hello, World! GitHub Actions is working!"
