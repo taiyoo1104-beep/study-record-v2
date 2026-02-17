@@ -21,4 +21,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_STUDY_RECORD_V2 }}'
           channelId: live
-          projectId: study-record-v2
+          projectId: react-practice-5073c
